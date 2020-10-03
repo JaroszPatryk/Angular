@@ -6,11 +6,13 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  topMovies = [
-    {tittle: 'Skazani na Shawshank', director: 'Frank Darabont'},
-    {tittle: 'Ojciec chrzestny', director: 'Francis Ford Coppola'},
-    {tittle: 'Ojciec chrzestny II ', director: 'Francis Ford Coppola'},
-    {tittle: 'Mroczny rycerz', director: 'Christopher Nolan'},
-    {tittle: 'Dwunastu gniewnych ludzi', director: 'Sidney Lumet'}
-    ];
+  tab = 0;
+
+  setTab(num: number): void{
+    this.tab = num;
+  }
+
+  isSelected(num: number): boolean {
+    return this.tab === num;
+  }
 }
