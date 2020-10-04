@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
+import {FormGroup} from '@angular/forms';
+import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent} from '@angular/router';
 
 
 @Component({
@@ -9,31 +9,23 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  isLoading = true;
   signupForm: FormGroup;
 
-  constructor(private http: HttpClient) {
+  constructor(private router: Router) {
+    router.events.subscribe((value: RouterEvent) => this.checkEvent(value));
   }
 
   ngOnInit(): void {
-    this.signupForm = new FormGroup({
-      id: new FormControl(),
-      userId: new FormControl(),
-      title: new FormControl(),
-      body: new FormControl()
-    });
   }
 
-
-  onSubmit(): void {
-    console.log(this.signupForm);
-  }
-
-  loadValues(): void {
-    this.http.get('http://jsonplaceholder.typicode.com/1')
-      .subscribe(
-        (data: { id: number, userId: number, title: string, body: string }) => {
-          this.signupForm.patchValue(data);
-        }
-      );
+  checkEvent(routeEvent: RouterEvent): void {
+    if (routeEvent instanceof NavigationStart) {
+      this.isLoading = true;
+    } else if (routeEvent instanceof NavigationEnd
+      || routeEvent instanceof NavigationCancel
+      || routeEvent instanceof NavigationError) {
+      this.isLoading = false;
+    }
   }
 }
