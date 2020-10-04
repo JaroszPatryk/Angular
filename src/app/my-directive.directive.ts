@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Renderer2} from '@angular/core';
+import {Directive, ElementRef, HostListener, Renderer2} from '@angular/core';
 
 @Directive({
   selector: '[appMyDirective]'
@@ -9,4 +9,17 @@ export class MyDirectiveDirective {
     renderer.setStyle(elementRef.nativeElement, 'backgroundColor', 'red');
   }
 
+  @HostListener('mouseenter')
+  onMouseEnter(): void {
+    this.setBgColor('red');
+  }
+
+  @HostListener('mouseleave')
+  onMouseLeave(): void {
+    this.setBgColor('yellow');
+  }
+
+  private setBgColor(color: string): void {
+    this.renderer.setStyle(this.elementRef.nativeElement, 'backgroundColor', color,);
+  }
 }
