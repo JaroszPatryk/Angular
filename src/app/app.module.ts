@@ -12,6 +12,8 @@ import {NewsComponent} from './news/news.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {RouterModule, Routes} from '@angular/router';
 import {APIResolver} from './resolver/APIResolver';
+import {AuthService} from './services/AuthService';
+import {AuthGuard} from './routerGuard/AuthGuard';
 
 const appRotes: Routes = [
   {
@@ -26,7 +28,8 @@ const appRotes: Routes = [
   },
   {
     path: 'news/:newsId',
-    component: NewsComponent
+    component: NewsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',
@@ -55,7 +58,10 @@ const appRotes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRotes)
   ],
-  providers: [APIResolver],
+  providers: [
+    APIResolver,
+    AuthService,
+    AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
